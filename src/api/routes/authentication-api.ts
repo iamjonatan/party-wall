@@ -44,7 +44,7 @@ export default (app: Router) => {
         }),
         async (req: Request, res: Response, next: NextFunction) => {
             try {
-                const { email: username, password } = req.body;
+                const { username, password } = req.body;
                 const authServiceInstance = Container.get(AuthenticationService);
                 const { user, token } = await authServiceInstance.SignIn(username, password);
                 return res.json({ user, token }).status(200);

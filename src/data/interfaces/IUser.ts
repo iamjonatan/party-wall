@@ -1,6 +1,6 @@
 
 export interface IUser {
-    id: string;
+    _id?: string;
     username: string;
     password: string;
     items?: string[]

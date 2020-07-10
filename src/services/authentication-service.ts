@@ -42,7 +42,7 @@ export default class AuthenticationService {
         }
 
         console.log('Checking password');
-        const validPassword = await bcrypt.compareSync(userRecord.password, password);
+        const validPassword = await bcrypt.compareSync(password, userRecord.password);
         if (validPassword) {
             console.log('Password is valid!');
 
@@ -59,12 +59,12 @@ export default class AuthenticationService {
         }
     }
 
-    private generateToken(user:any) {
+    private generateToken(user:IUser) {
         console.log(`Sign JWT for userId: ${user._id}`);
         return jwt.sign(
             {
                 _id: user._id,
-                name: user.name,
+                username: user.username,
                 exp: Math.floor(Date.now() / 1000) + (60 * 60),     //1 hour expiration
             },
             config.jwtSecret
@@ -76,7 +76,7 @@ export default class AuthenticationService {
         if(userRecord) {
             if(!userRecord.items) userRecord.items = [];
             userRecord.items.push(itemId);
-            await this.userDao.save(userRecord);
+            await this.userDao.update(userRecord);
         }
     }
 
@@ -85,7 +85,7 @@ export default class AuthenticationService {
         if(userRecord && userRecord.items) {
             let newItems = userRecord.items?.filter( id => id !== itemId);
             userRecord.items = newItems;
-            await this.userDao.save(userRecord);
+            await this.userDao.update(userRecord);
         }
     }
 }

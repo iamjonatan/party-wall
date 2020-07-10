@@ -17,7 +17,7 @@ const getTokenFromHeader = (req:any) => {
 
 const isAuthorised = jwt({
     secret: config.jwtSecret,
-    algorithms: ['SHA256'],
+    algorithms: ['HS256'],
     userProperty: 'token',
     getToken: getTokenFromHeader
 });

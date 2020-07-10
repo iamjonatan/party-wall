@@ -28,7 +28,8 @@ export default class UserDAO implements IDao<IUser & mongoose.Document>{
     }
 
     async update(user: IUser): Promise<IUser & mongoose.Document | null> {
-        return Promise.resolve(await this.userModel.findByIdAndUpdate(user.id, user));
+        Reflect.deleteProperty(user, 'createdAt');
+        return Promise.resolve(await this.userModel.findByIdAndUpdate(user._id, user));
     }
 
     async delete(id:string): Promise<void> {
